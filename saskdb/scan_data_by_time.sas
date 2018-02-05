@@ -1,31 +1,31 @@
 options nosource nonumber nodate nonotes nomprint error=10;
-*²ßÂÔºê;
+*ç­–ç•¥å®;
 %macro TS();
-        %put ²ßÂÔ¡­¡­¡­¡­;
-        *ÕâÀïÁ¬½ÓÊı¾İ¿â£¬Êı¾İ´¦Àí£¬²ßÂÔ´¦ÀíµÈ£¬×¢Òâ±¾ºêµÄÔËĞĞÊ±¼ä;
+        %put ç­–ç•¥â€¦â€¦â€¦â€¦;
+        *è¿™é‡Œè¿æ¥æ•°æ®åº“ï¼Œæ•°æ®å¤„ç†ï¼Œç­–ç•¥å¤„ç†ç­‰ï¼Œæ³¨æ„æœ¬å®çš„è¿è¡Œæ—¶é—´;
 
 %mend;
 
-*°´±¾µØÊ±¼ä±éÀú;
+*æŒ‰æœ¬åœ°æ—¶é—´éå†;
 %macro ScanByTime();
         %let tm0 = %sysfunc(time());
-        %let dt0 = %sysfunc(DHMS(%sysfunc(date()),%sysfunc(hour(&tm0)),%sysfunc(minute(&tm0)),0));  *°ÑÃëÖÃÎª0;
+        %let dt0 = %sysfunc(DHMS(%sysfunc(date()),%sysfunc(hour(&tm0)),%sysfunc(minute(&tm0)),0));  *æŠŠç§’ç½®ä¸º0;
         %do %while (1);
                 %let dt1 =  %sysfunc(datetime());
                 %let tm1 =  %sysfunc(time());
-                %*Ö»ÔÚÖ¸¶¨µÄ½»Ò×Ê±¶ÎÔËĞĞ£¬¸ù¾İĞèĞŞ¸Ä;
+                %*åªåœ¨æŒ‡å®šçš„äº¤æ˜“æ—¶æ®µè¿è¡Œï¼Œæ ¹æ®éœ€ä¿®æ”¹;
                 %let cond= %sysevalf(   (&tm1. > %sysfunc(HMS( 9, 0,0)) and &tm1. < %sysfunc(HMS(11,30,0)) ) or
                                         (&tm1. > %sysfunc(HMS(13,30,0)) and &tm1. < %sysfunc(HMS(15, 0,0)) ) or
                                         (&tm1. > %sysfunc(HMS(21, 0,0)) and &tm1. < %sysfunc(HMS(24, 0,0)) ) or
                                         (&tm1. >=%sysfunc(HMS( 0, 0,0)) and &tm1. < %sysfunc(HMS(02,30,0)) ) );
                 %if(&cond) %then %do;
-                %*ÕâÀïÎª1·ÖÖÓÔËĞĞÒ»´Î£¬ĞèÒª¸ù¾İĞèÒªĞŞ¸Ä;
-                %let cond= %sysevalf( &dt1 - &dt0 >= 60 and %sysfunc(minute(&dt1))-%sysfunc(minute(&dt0)) >= 1 );  *µ½´ïĞÂÒ»·ÖÖÓÊ±;
+                %*è¿™é‡Œä¸º1åˆ†é’Ÿè¿è¡Œä¸€æ¬¡ï¼Œéœ€è¦æ ¹æ®éœ€è¦ä¿®æ”¹;
+                %let cond= %sysevalf( &dt1 - &dt0 >= 60  );  
                 %if(&cond) %then %do;
                         %let dt0 = &dt1;
-                        %put %sysfunc(time(),time.) ÔËĞĞ²ßÂÔ´úÂë...;
+                        %put %sysfunc(time(),time.) è¿è¡Œç­–ç•¥ä»£ç ...;
                         %TS();
-                        %put %sysfunc(time(),time.) ÔËĞĞ²ßÂÔ´úÂë½áÊø;
+                        %put %sysfunc(time(),time.) è¿è¡Œç­–ç•¥ä»£ç ç»“æŸ;
                 %end;
                 %end;
         %end;
@@ -33,4 +33,4 @@ options nosource nonumber nodate nonotes nomprint error=10;
 
 %ScanByTime();
 
-options source;   *¸ù¾İÇé¿öĞŞ¸Ä;
+options source;   *æ ¹æ®æƒ…å†µä¿®æ”¹;
